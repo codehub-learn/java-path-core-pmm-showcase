@@ -88,4 +88,5 @@ public class SimpleJavaLanguageExamples {
 		double randomNum = Math.random();
 		return randomNum > 0.5 ? 1 : 0;
 	}
+
 }
