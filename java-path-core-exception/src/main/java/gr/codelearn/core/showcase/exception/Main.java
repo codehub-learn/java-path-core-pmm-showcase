@@ -18,24 +18,8 @@ public class Main {
 	public static void main(String[] args) {
 		//checkedException();
 		//uncheckedException();
-
-		boolean failure;
-		Scanner sc = new Scanner(System.in);
-		do {
-			try {
-				String answer = readUserInput(sc);
-				parseToInt(answer);
-				failure = false;
-			} catch (NumberFormatException e) {
-				logger.error("{}", e.getMessage());
-				failure = true;
-			}
-		} while (failure);
-		sc.close();
+		getIntegerFromUser();
 		/*
-
-
-
 		logger.info("{}", uncheckedFinallyException());
 
 		forClient(1, 2);
@@ -110,6 +94,26 @@ public class Main {
 		return -1;
 	}
 
+	private static void getIntegerFromUser(){
+
+
+		boolean failure;
+		//https://stackoverflow.com/a/58026671, read this answer, should help you understand what is probably going
+		// on here
+		Scanner sc = new Scanner(System.in);
+		do {
+			try {
+				String answer = readUserInput(sc);
+				parseToInt(answer);
+				failure = false;
+			} catch (NumberFormatException e) {
+				logger.error("{}", e.getMessage());
+				failure = true;
+			}
+		} while (failure);
+		sc.close();
+	}
+
 	private static void parseToInt(String answer) throws NumberFormatException {
 		try {
 			logger.info("Trying to convert the answer to a number...");
@@ -118,14 +122,14 @@ public class Main {
 		} catch (NumberFormatException e) {
 			logger.info("failure!");
 			logger.error(e.getMessage());
-			throw new NumberFormatException("number was wrong");
+			throw new NumberFormatException("number was not a number");
 		}
 	}
 
 	private static String readUserInput(Scanner sc) {
 		logger.info("Please input a number");
 		String answer = sc.nextLine();
-		logger.info("Your anwer was: {}", answer);
+		logger.info("Your answer was: {}", answer);
 		return answer;
 	}
 }
