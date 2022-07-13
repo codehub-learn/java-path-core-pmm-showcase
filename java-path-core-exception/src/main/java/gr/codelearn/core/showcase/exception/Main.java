@@ -13,11 +13,12 @@ public class Main {
 	public static void main(String[] args) {
 		//checkedException();
 		//uncheckedException();
-		/*
+
 		boolean failure;
+		Scanner sc = new Scanner(System.in);
 		do {
-			String answer = readUserInput();
 			try {
+				String answer = readUserInput(sc);
 				parseToInt(answer);
 				failure = false;
 			} catch (NumberFormatException e){
@@ -25,6 +26,9 @@ public class Main {
 				failure = true;
 			}
 		} while (failure);
+		sc.close();
+		/*
+
 
 
 		System.out.println(uncheckedFinallyException());
@@ -41,12 +45,13 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		*/
+
 		try {
 			final int number = insertNumber(-4);
 		} catch (BusinessException e) {
 			System.out.println(e.getMessage());
 		}
+		*/
 	}
 
 	private static int insertNumber(int number) throws BusinessException {
@@ -112,12 +117,10 @@ public class Main {
 		}
 	}
 
-	private static String readUserInput() {
-		try (Scanner sc = new Scanner(System.in)) {
+	private static String readUserInput(Scanner sc) {
 			System.out.println("Please input a number");
 			String answer = sc.nextLine();
 			System.out.println("Your answer was: " + answer);
 			return answer;
-		}
 	}
 }
