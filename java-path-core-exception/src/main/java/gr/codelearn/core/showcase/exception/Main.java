@@ -3,6 +3,8 @@ package gr.codelearn.core.showcase.exception;
 import gr.codelearn.core.showcase.exception.exception.BusinessException;
 import gr.codelearn.core.showcase.exception.exception.NumberBelowZero;
 import gr.codelearn.core.showcase.exception.exception.NumberIsZero;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +12,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
 	public static void main(String[] args) {
 		//checkedException();
 		//uncheckedException();
@@ -21,8 +26,8 @@ public class Main {
 				String answer = readUserInput(sc);
 				parseToInt(answer);
 				failure = false;
-			} catch (NumberFormatException e){
-				System.out.println(e.getMessage());
+			} catch (NumberFormatException e) {
+				logger.error("{}", e.getMessage());
 				failure = true;
 			}
 		} while (failure);
@@ -31,13 +36,13 @@ public class Main {
 
 
 
-		System.out.println(uncheckedFinallyException());
+		logger.info("{}", uncheckedFinallyException());
 
 		forClient(1, 2);
 		try {
 			final int parsedResult = Integer.parseInt("5");
 		} catch (NumberFormatException e) {
-			System.out.println("your input was wrong");
+			logger.error(""your input was wrong");
 		}
 
 		try {
@@ -49,7 +54,7 @@ public class Main {
 		try {
 			final int number = insertNumber(-4);
 		} catch (BusinessException e) {
-			System.out.println(e.getMessage());
+			logger.error("{}", e.getMessage());
 		}
 		*/
 	}
@@ -71,9 +76,9 @@ public class Main {
 		String fileName = "Ioannis";
 		if (fileName != null) {
 			try (FileReader fileReader = new FileReader(fileName)) {
-				System.out.println("hello its me");
+				logger.info("hello its me");
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				logger.error("{}", e.getMessage());
 			}
 		}
 	}
@@ -81,11 +86,11 @@ public class Main {
 	private static void uncheckedException() {
 		try {
 			int result = 10 / 0;
-			System.out.println(result);
+			logger.info("{}", result);
 		} catch (ArithmeticException e) {
-			System.out.println(" an error happened");
+			logger.error("an error happened");
 		}
-		System.out.println("test");
+		logger.info("test");
 	}
 
 	private static void forClient(int n1, int n2) throws ArithmeticException {
@@ -95,32 +100,32 @@ public class Main {
 	private static int uncheckedFinallyException() {
 		try {
 			int result = 10 / 0;
-			System.out.println(result);
+			logger.info("{}", result);
 			return result;
 		} catch (ArithmeticException e) {
-			System.out.println(" an error happened");
+			logger.error("an error happened");
 		} finally {
-			System.out.println("finally");
+			logger.info("finally");
 		}
 		return -1;
 	}
 
 	private static void parseToInt(String answer) throws NumberFormatException {
 		try {
-			System.out.println("Trying to convert the answer to a number...");
+			logger.info("Trying to convert the answer to a number...");
 			Integer.parseInt(answer);
-			System.out.println("success!");
+			logger.info("success!");
 		} catch (NumberFormatException e) {
-			System.out.println("failure!");
-			System.out.println(e.getMessage());
+			logger.info("failure!");
+			logger.error(e.getMessage());
 			throw new NumberFormatException("number was wrong");
 		}
 	}
 
 	private static String readUserInput(Scanner sc) {
-			System.out.println("Please input a number");
-			String answer = sc.nextLine();
-			System.out.println("Your answer was: " + answer);
-			return answer;
+		logger.info("Please input a number");
+		String answer = sc.nextLine();
+		logger.info("Your anwer was: {}", answer);
+		return answer;
 	}
 }
