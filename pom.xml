@@ -22,12 +22,12 @@
 
 	<!-- Modules -->
 	<modules>
-		<module>java-path-core-collection</module>
-		<module>java-path-core-database</module>
 		<module>java-path-core-oop</module>
+		<module>java-path-core-exception</module>
+		<module>java-path-core-collection</module>
 		<module>java-path-core-stream</module>
-        <module>java-path-core-exception</module>
-    </modules>
+		<module>java-path-core-database</module>
+	</modules>
 
 	<!-- Properties/Variables -->
 	<properties>
