@@ -11,9 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class ExceptionApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(Main.class);
+	private static final Logger logger = LoggerFactory.getLogger(ExceptionApplication.class);
 
 	public static void main(String[] args) {
 		//checkedException();
@@ -94,8 +94,7 @@ public class Main {
 		return -1;
 	}
 
-	private static void getIntegerFromUser(){
-
+	private static void getIntegerFromUser() {
 
 		boolean failure;
 		//https://stackoverflow.com/a/58026671, read this answer, should help you understand what is probably going
