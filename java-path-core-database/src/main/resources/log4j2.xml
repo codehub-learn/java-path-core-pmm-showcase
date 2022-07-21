@@ -30,7 +30,7 @@
 	</Appenders>
 
 	<Loggers>
-		<AsyncLogger name="gr.codelearn" level="debug" additivity="false">
+		<AsyncLogger name="gr.codelearn" level="info" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="RollingRandomAccessFileAppender"/>
 		</AsyncLogger>

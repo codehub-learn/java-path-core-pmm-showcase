@@ -56,7 +56,7 @@ public class DatabaseClassicConnection {
 
 		demo.rollbackData(connection);
 
-		demo.insertGeneratedData(connection, 30);
+		demo.insertGeneratedData(connection, 90);
 		demo.readData(connection);
 
 		demo.updateData(connection);
@@ -64,6 +64,9 @@ public class DatabaseClassicConnection {
 
 		demo.deleteData(connection);
 		demo.readData(connection);
+
+		// Commit transaction
+		demo.commitData(connection);
 	}
 
 	private void loadSqlCommands() {
@@ -126,9 +129,9 @@ public class DatabaseClassicConnection {
 			statement.addBatch(sqlCommands.getProperty("insert.table.010"));
 
 			int[] rowsAffectedArray = statement.executeBatch();
-			logger.info("Insert commands were successful with {} row(s) affected.", Arrays.stream(rowsAffectedArray)
-																						  .summaryStatistics()
-																						  .getSum());
+			logger.debug("Insert commands were successful with {} row(s) affected.", Arrays.stream(rowsAffectedArray)
+																						   .summaryStatistics()
+																						   .getSum());
 		} catch (SQLException ex) {
 			logger.error("Error while inserting data.", ex);
 		}
@@ -136,7 +139,7 @@ public class DatabaseClassicConnection {
 
 	private void runInsertCommands(Statement statement, String... commands) throws SQLException {
 		for (String command : commands) {
-			logger.info("Insert command was successful with {} row(s) affected.", statement.executeUpdate(command));
+			logger.debug("Insert command was successful with {} row(s) affected.", statement.executeUpdate(command));
 		}
 	}
 
@@ -148,7 +151,7 @@ public class DatabaseClassicConnection {
 			batchInsert(preparedStatement, howManyStatements, maximumIdValue);
 
 			int[] rowsAffectedArray = preparedStatement.executeBatch();
-			logger.info("Insert batch command were successful with {} row(s) affected.", Arrays.stream(
+			logger.debug("Insert batch command were successful with {} row(s) affected.", Arrays.stream(
 					rowsAffectedArray).summaryStatistics().getSum());
 
 		} catch (SQLException ex) {
@@ -174,8 +177,8 @@ public class DatabaseClassicConnection {
 
 	private void updateData(Connection connection) {
 		try (Statement statement = connection.createStatement()) {
-			logger.info("Update command was successful with {} row(s) affected.",
-						statement.executeUpdate(sqlCommands.getProperty("update.table.001")));
+			logger.debug("Update command was successful with {} row(s) affected.",
+						 statement.executeUpdate(sqlCommands.getProperty("update.table.001")));
 		} catch (SQLException ex) {
 			logger.error("Error while updating data.", ex);
 		}
@@ -183,8 +186,8 @@ public class DatabaseClassicConnection {
 
 	private void deleteData(Connection connection) {
 		try (Statement statement = connection.createStatement()) {
-			logger.info("Delete command was successful with {} row(s) affected.",
-						statement.executeUpdate(sqlCommands.getProperty("delete.table.001")));
+			logger.debug("Delete command was successful with {} row(s) affected.",
+						 statement.executeUpdate(sqlCommands.getProperty("delete.table.001")));
 		} catch (SQLException ex) {
 			logger.error("Error while deleting data.", ex);
 		}
@@ -195,18 +198,18 @@ public class DatabaseClassicConnection {
 															  ResultSet.CONCUR_READ_ONLY);
 			 ResultSet resultSet = statement.executeQuery(sqlCommands.getProperty("select.table.001"))) {
 
-			logger.info("---------------------------------------------------------------------");
+			logger.debug("---------------------------------------------------------------------");
 			//@formatter:off
 			int rowCount =1;
 			while (resultSet.next()) {
-				logger.info("{}. {}:{}, {}:{}, {}:{}, {}:{}", rowCount++,
+				logger.debug("{}. {}:{}, {}:{}, {}:{}, {}:{}", rowCount++,
 							resultSet.getMetaData().getColumnName(1), resultSet.getString(1),
 							resultSet.getMetaData().getColumnName(2), resultSet.getString(2),
 							resultSet.getMetaData().getColumnName(3), resultSet.getString(3),
 							resultSet.getMetaData().getColumnName(4), resultSet.getString(4));
 			}
 			//@formatter:on
-			logger.info("---------------------------------------------------------------------");
+			logger.debug("---------------------------------------------------------------------");
 
 		} catch (SQLException ex) {
 			logger.error("Error while reading data.", ex);
@@ -220,7 +223,7 @@ public class DatabaseClassicConnection {
 			// It has returned results that haven't been read
 			if (resultSet.isBeforeFirst()) {
 				resultSet.next();
-				logger.info("Maximum id value found is {}.", resultSet.getInt(1));
+				logger.debug("Maximum id value found is {}.", resultSet.getInt(1));
 
 				return resultSet.getInt(1);
 			}
@@ -236,9 +239,9 @@ public class DatabaseClassicConnection {
 		try {
 			// Commit transaction
 			connection.commit();
-			logger.debug("---------------------------------------------------------------------");
-			logger.debug("Transaction was committed.");
-			logger.debug("---------------------------------------------------------------------");
+			logger.info("---------------------------------------------------------------------");
+			logger.info("Transaction was committed.");
+			logger.info("---------------------------------------------------------------------");
 		} catch (SQLException ex) {
 			logger.warn("Unable to commit transaction.");
 		}
@@ -248,9 +251,9 @@ public class DatabaseClassicConnection {
 		try {
 			// Rollback transaction
 			connection.rollback();
-			logger.debug("---------------------------------------------------------------------");
-			logger.debug("Transaction was rolled back.");
-			logger.debug("---------------------------------------------------------------------");
+			logger.info("---------------------------------------------------------------------");
+			logger.info("Transaction was rolled back.");
+			logger.info("---------------------------------------------------------------------");
 		} catch (SQLException ex) {
 			logger.warn("Unable to rollback transaction.");
 		}
@@ -274,6 +277,6 @@ public class DatabaseClassicConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		logger.info("Oracle JDBC driver server has been successfully loaded.");
+		logger.debug("Oracle JDBC driver server has been successfully loaded.");
 	}
 }
